@@ -18,6 +18,7 @@ public:
 	int userCnt=0; 
 	// user[0]: Àè, user[1]: ¼ö»ç°ü
 	SOCKET user[2];
+	GameData gameData;
 
 	RoomArray();
 	~RoomArray();
@@ -28,4 +29,5 @@ public:
 	int recvUser2();
 
 	void GameStart();
+	void initGameDate();
 };

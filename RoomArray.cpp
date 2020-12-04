@@ -11,7 +11,8 @@ void RoomArray::print() {
 }
 
 int RoomArray::sendUsers() {
-	fgets(cMsg, PACKET_SIZE, stdin);
+	//fgets(cMsg, PACKET_SIZE, stdin);
+	char cMsg[PACKET_SIZE] = "Game Start!";
 	printf("데이터를 모든 유저에게 보냅니다: %s\n", cMsg);
 	int result = send(user[0], cMsg, strlen(cMsg), 0);
 	if (result < 0)
@@ -49,72 +50,79 @@ void RoomArray::GameStart() {
 	// 홀수 라운드: 수사관 잭 잭 수사관
 	// 짝수 라운드: 잭 수사관 수사관 잭
 
-	GameData gameData;
+	//GameData gameData;
 
 	// 처음에 유저0에게는 잭을, 유저1에게는 수사관임을 알려줘야함
 	printf("유저에게 역할을 보냅니다.\n");
 	int result = send(user[0], "Jack", strlen("Jack"), 0);
+	printf("Jack을 결정하였습니다.\n");
 	if (result < 0)
 		printf("error: send to Jack");
 
 	result = send(user[1], "Police", strlen("Police"), 0);
+	printf("수사관을 결정하였습니다.\n");
 	if (result < 0)
 		printf("error: send to Police");
 
 	// 초기 게임 데이터를 유저에게 전달
 	// 게임에 필요한 데이터를 주고 받는다
-	while (1) { 
-		printf("\n============================\n");
-		int sendResult = sendUsers();
-		if (sendResult == -1) {
-			printf("Send Err\n\n");
-			closesocket(user[0]);
-			closesocket(user[1]);
+	//while (1) { 
+	printf("\n============================\n");
+	int sendResult = sendUsers();
+	if (sendResult == -1) {
+		printf("Send Err\n\n");
+		closesocket(user[0]);
+		closesocket(user[1]);
+		//break;
+	}
+	printf("(시작)두 유저에게 데이터를 보냈습니다.\n");
+	/*while (1) {
+		int recvResult = recvUser1();
+		printf("\n유저1에게 데이터를 받았습니다: %s\n", cMsg);
+		if (recvResult < 0) {
+			printf("Recv Err\n\n");
 			break;
 		}
-		printf("(시작)두 유저에게 데이터를 보냈습니다.\n");
-		while (1) {
-			int recvResult = recvUser1();
-			printf("\n유저1에게 데이터를 받았습니다: %s\n", cMsg);
-			if (recvResult < 0) {
-				printf("Recv Err\n\n");
+		else
+		{
+			int sendResult = sendUsers();
+			if (sendResult == -1) {
+				printf("Send Err\n\n");
+				closesocket(user[0]);
+				closesocket(user[1]);
 				break;
 			}
-			else
-			{
-				int sendResult = sendUsers();
-				if (sendResult == -1) {
-					printf("Send Err\n\n");
-					closesocket(user[0]);
-					closesocket(user[1]);
-					break;
-				}
-			}
+		}
 
-			recvResult = recvUser2();
-			printf("\n유저2에게 데이터를 받았습니다: %s\n", cMsg);
-			if (recvResult < 0) {
-				printf("Recv Err\n\n");
+		recvResult = recvUser2();
+		printf("\n유저2에게 데이터를 받았습니다: %s\n", cMsg);
+		if (recvResult < 0) {
+			printf("Recv Err\n\n");
+			break;
+		}
+		else
+		{
+			int sendResult = sendUsers();
+			if (sendResult == -1) {
+				printf("Send Err\n\n");
+				closesocket(user[0]);
+				closesocket(user[1]);
 				break;
 			}
-			else
-			{
-				int sendResult = sendUsers();
-				if (sendResult == -1) {
-					printf("Send Err\n\n");
-					closesocket(user[0]);
-					closesocket(user[1]);
-					break;
-				}
-			}
+		}
 
-			//	for (int i = 0; i < PACKET_SIZE; i++) {
-			//		cBuffer[i] = '\0';
-			//	}
-		}break;
-	}
+		//	for (int i = 0; i < PACKET_SIZE; i++) {
+		//		cBuffer[i] = '\0';
+		//	}
+	}break;
+}
 
-	printf("\n===== Client Disconnected =====\n");
-	closesocket(user[0]);
-	closesocket(user[1]);
+printf("\n===== Client Disconnected =====\n");
+closesocket(user[0]);
+closesocket(user[1]);*/
+}
+
+void RoomArray::initGameDate()
+{
+	this->gameData;
 }
