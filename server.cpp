@@ -5,11 +5,10 @@
 #pragma comment(lib, "ws2_32")
 
 #define PORT 18363
-#define PACKET_SIZE 1024
 
-void proc_start(RoomArray room) {
-	room.GameStart();
-}
+//void proc_start(RoomArray room) {
+//	room.GameStart();
+//}
 
 int main() {
 	WSADATA wsaData;
@@ -80,8 +79,8 @@ int main() {
 				roomList[i].user[1] = hClient;
 				escapeLoop = true;
 				// 스레드를 만들어서 게임을 시작하려고함
-				std::thread procStart(proc_start, roomList[i]);
-				procStart.detach();
+				std::thread gameStart(&RoomArray::GameStart, &roomList[i]);
+				gameStart.detach();
 				// roomList[i].GameStart();
 				break;
 			}
